@@ -1,13 +1,29 @@
-#mission 3 
-"""
-Needs to move forwards, rotate 45, forwards, 45deg and backwards. 45 degrees, full length.
-Clockwise for all.
-"""
-import color
-import color_sensor
-import motor 
-from hub import port
+#await m.run_for_time(B, time2, -vel2)
 
-async def main():
-    motor.run_for_degrees(port.A, 2160, 360)
-    motor.run_for_degrees(port.B, 2160, 360)
+from hub import port, motion_sensor
+import time
+import motor as m
+import runloop as rl
+A = port.A
+B = port.B
+D = port.D
+E = port.E
+F = port.F
+
+AY = A
+AV = B
+
+R = F
+L = E
+
+async def code(vel1 = 360, vel2 = 180, time1 = 2000, time2 = 250, time3 = 550):
+    await m.run_to_relative_position(B, 275, -180)
+    m.run_for_time(F, time1, vel1)
+    await m.run_for_time(E, time1, -vel1)
+    m.run_for_time(F, time3, vel1)
+    await m.run_for_time(E, time3, vel1)
+    await m.run_to_relative_position(B, 275, 180)
+    await m.run_for_time(A, time1, vel1)
+
+
+rl.run(code())
